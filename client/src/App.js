@@ -1,4 +1,5 @@
 import React from 'react';
+import API from './API';
 import TopBar from './TopBar';
 import TicketForm from './TicketForm';
 import OfficerPage from './OfficerPage'
@@ -11,12 +12,23 @@ class App extends React.Component {
     super(props);
     this.state = {
       loggedin: "false",            
+      requestTypes: [],
+      ticketNumber: undefined,
     };
   }
 
-  getNewTicket = (type) => {
+  componentDidMount() {
+    this.getRequestType();
+  }
+
+  getRequestType = () => {
+    //API.getRequestType().then((types) => {this.setState({requestTypes: types}) });
+    console.log("Request types loading");
+  }
+
+  createNewTicket = (type) => {
     /*
-    API.getNewTicket(type).then((ticket) => {this.setState({ticketNumber: ticket, type: type})})
+    API.createNewTicket(type).then((ticket) => {this.setState({ticketNumber: ticket, type: type})})
       .catch((e) => {
         console.log("Error in get a new ticket: " + e);
       });
@@ -38,7 +50,7 @@ class App extends React.Component {
           </Route>
 
           <Route path="/">
-            <TicketForm getNewTicket = {this.getNewTicket}></TicketForm>
+            <TicketForm createNewTicket = {this.createNewTicket} requestTypes = {this.state.requestTypes} ticketNumber = {this.state.ticketNumber}></TicketForm>
           </Route>
         </Switch>
       </Router>
