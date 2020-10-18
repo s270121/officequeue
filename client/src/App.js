@@ -1,6 +1,7 @@
 import React from 'react';
 import TopBar from './TopBar';
 import TicketForm from './TicketForm';
+import OfficerPage from './OfficerPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter as Router, Route, Link, Switch, Redirect} from 'react-router-dom';
 import './App.css';
@@ -31,6 +32,11 @@ class App extends React.Component {
           <Route path="/login">
             <p>Login form</p>
           </Route>
+
+          <Route path="/officer">
+            <OfficerPage/>
+          </Route>
+
           <Route path="/">
             <TicketForm getNewTicket = {this.getNewTicket}></TicketForm>
           </Route>
