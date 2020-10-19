@@ -22,12 +22,13 @@ async function userLogin(username, password) {
 
 async function createNewTicket(type) {
     return new Promise((resolve, reject) => {
-        fetch('http://localhost:80/project1/server/api/insertTicketWithType', {
+        fetch('http://localhost:80/project1/server/api/insertTicketsWithType', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                //'Content-Type': 'application/json',
+                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
             },
-            body: JSON.stringify({type: type}),
+            body: JSON.stringify({type: 2}),
         }).then((response) => {
             //If the ticket is created resolve, else reject
             if (response.ok) {

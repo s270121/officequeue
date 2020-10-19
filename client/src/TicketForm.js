@@ -19,7 +19,13 @@ class TicketForm extends React.Component {
 
     handleSubmit = (ev) => {
         ev.preventDefault();
-        this.props.createNewTicket(this.state.type);
+        let id = undefined;
+        for(let type of this.props.requestTypes) {
+            if(type.requestName === this.state.type) {
+                id = type.idRequest;
+            }
+        }
+        this.props.createNewTicket(id);
     }
 
     render() {
