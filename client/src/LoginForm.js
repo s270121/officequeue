@@ -1,11 +1,12 @@
 import React from 'react';
+import {BrowserRouter as Router, Route, Link, Switch, Redirect} from 'react-router-dom';
 
 class LoginForm extends React.Component {
 
     constructor(props) {
         super(props);
         // prefilled user pass fields just for convenience for testing purposes
-        this.state = { username: 'calogero', password: 'test' };
+        this.state = { loginSuccess: false, username: 'calogero', password: 'test' };
     }
     updateField = (name, value) => {
         this.setState({ [name]: value });
@@ -14,6 +15,7 @@ class LoginForm extends React.Component {
     doLogin = (event) => {
         event.preventDefault();
         if (this.form.checkValidity()) {
+            this.setState({loginSuccess: true});
             this.props.setLoggedIn();
         } else {
             this.form.reportValidity();
@@ -25,6 +27,9 @@ class LoginForm extends React.Component {
     }
 
     render() {
+        if (this.state.loginSuccess){
+            return <Redirect to="/officer"/>
+        } else
         return <div>
             <form className='form' method={'POST'}
                 onSubmit={this.validateForm} ref={form => this.form = form}>

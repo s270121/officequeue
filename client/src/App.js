@@ -60,7 +60,7 @@ class App extends React.Component {
           <Route path="/login">
             <Row className="height-100">
               <Col sm={4}></Col>
-              <Col sm={4} className="below-nav">
+              <Col sm={4} className="below-nav my-2">
                 <LoginForm setLoggedIn={this.setLoggedIn}/>
               </Col>
             </Row>

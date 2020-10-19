@@ -29,7 +29,7 @@ class TicketForm extends React.Component {
                 <Row>
                     <Col>
                         <Form onSubmit={this.handleSubmit}>
-                            <Form.Group controlId="formTicket">
+                            <Form.Group className="my-3" controlId="formTicket">
                             <Form.Label>Type of request</Form.Label>
                             <Form.Control as="select" name="type" onChange={(ev) => this.updateField(ev.target.name, ev.target.value)}>
                                 {this.props.requestTypes.map((type) => <option key={type}>{type}</option>)}
@@ -43,7 +43,7 @@ class TicketForm extends React.Component {
                     </Col>
 
                     <Col>
-                        <Alert variant='primary'>{this.props.numberOfCustomers} customers are waiting for this service.</Alert>
+                        <Alert className="my-5" variant='primary'>{this.props.numberOfCustomers} customers are waiting for this service.</Alert>
                     </Col>
                 </Row>
                 

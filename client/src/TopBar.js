@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 
 class TopBar extends React.Component {
     render() {
-        return <Navbar variant="light">
+        return <Navbar bg="light" variant="light">
         <Navbar.Brand>Office queue</Navbar.Brand>
         {this.props.loggedin === false ? 
           <Link to="/login">
