@@ -38,8 +38,9 @@ if(isset($_GET['url'])){
             case "users":
                 echo "users post to be implemented";
             break;
+            //returns the ticket number given a request type; returns 0 on error.
             case "tickets/$number":
-                insertTicket($number);
+                echo insertTicket($number);
             break;
             case "counters":
                 echo "counters post to be implemented";

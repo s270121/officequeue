@@ -67,7 +67,7 @@ function insertTicket($idRequest){
     // echo $sql;
     $result = $db->exec($sql);
     if ($result)
-        return $db->changes();
+        return $ticketNumber;
     else
         return 0;
 }
