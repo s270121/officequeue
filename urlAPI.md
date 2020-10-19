@@ -7,7 +7,7 @@
 | REQUESTS GET ALL      | http://localhost:80/project1/server/api/requests                 | GET    |
 | SERVEDTICKETS GET ALL | http://localhost:80/project1/server/api/servedTickets            | GET    |
 | USERS POST            | http://localhost:80/project1/server/api/users                    | POST   |
-| TICKET POST           | http://localhost:80/project1/server/api/tickets/{idRequest}      | POST   |
+| TICKET POST           | http://localhost:80/project1/server/api/insertTicketsWithType    | POST   |
 | COUNTERS POST         | http://localhost:80/project1/server/api/counters                 | POST   |
 | REQUESTS POST         | http://localhost:80/project1/server/api/requests                 | POST   |
 | SERVEDTICKETS POST    | http://localhost:80/project1/server/api/servedTickets            | POST   |
