@@ -2,6 +2,7 @@
 //adding database interaction library
 require_once('dao.php');
 header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
 if(isset($_GET['url'])){
     $var = $_GET['url'];
     if($_SERVER['REQUEST_METHOD'] == 'GET'){
@@ -41,7 +42,7 @@ if(isset($_GET['url'])){
             //returns the ticket number given a request type; returns 0 on error.
             case "insertTicketsWithType":
                 $ticketType = file_get_contents("php://input");
-                $inputTicket = (json_decode($ticketType));
+                $inputTicket = (json_decode($ticketType->type));
                 echo json_encode(insertTicket($inputTicket));
             break;
 
