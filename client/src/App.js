@@ -19,13 +19,6 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getRequestTypes();
-    this.testLogin();
-  }
-
-  testLogin = () => {
-    API.userLogin("calogero", "test")
-      .then((res) => {console.log(res)})
-      .catch((err) => {console.log(err)});
   }
 
   getRequestTypes = () => {
