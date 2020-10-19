@@ -1,6 +1,6 @@
 async function userLogin(username, password) {
     return new Promise((resolve, reject) => {
-        fetch('/server/api/login.php', {
+        fetch('http://localhost:80/project1/server/api/login.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ async function userLogin(username, password) {
 
 async function createNewTicket(type) {
     return new Promise((resolve, reject) => {
-        fetch('/server/api/tickets', {
+        fetch('http://localhost:80/project1/server/api/tickets', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ async function createNewTicket(type) {
 }
 
 async function getRequestTypes() {
-    const response = await fetch("/server/api/requests");
+    const response = await fetch("http://localhost:80/project1/server/api/requests");
     const requestTypes = await response.json();
     if(response.ok) {
         return requestTypes;
@@ -49,3 +49,6 @@ async function getRequestTypes() {
         throw err; 
     }
 }
+
+const API = { userLogin, createNewTicket, getRequestTypes};
+export default API;

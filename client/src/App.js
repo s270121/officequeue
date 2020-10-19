@@ -18,12 +18,19 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getRequestType();
+    this.getRequestTypes();
+    this.testLogin();
   }
 
-  getRequestType = () => {
-    //API.getRequestType().then((types) => {this.setState({requestTypes: types}) });
-    console.log("Request types loading");
+  testLogin = () => {
+    API.userLogin("calogero", "test")
+      .then((res) => {console.log(res)})
+      .catch((err) => {console.log(err)});
+  }
+
+  getRequestTypes = () => {
+    API.getRequestTypes().then((types) => {this.setState({requestTypes: types}) });
+    //console.log("Request types loading");
   }
 
   createNewTicket = (type) => {
