@@ -43,7 +43,7 @@ async function getRequestTypes() {
     const response = await fetch("http://localhost:80/project1/server/api/requests");
     const requestTypes = await response.json();
     if(response.ok) {
-        return requestTypes;
+        return requestTypes.map((type) => type.idRequest);
     } else {
         let err = {status: response.status, errorObj: requestTypes};
         throw err; 
