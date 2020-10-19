@@ -20,12 +20,21 @@ function checkLogin($username, $password){
         return 0;
 }
 
+function getAllRequestsType(){
+    global $db;
+
+    $sql = "SELECT * FROM REQUESTS";
+    $result = $db->query($sql);
+    while ($row = $result->fetchArray(SQLITE3_ASSOC))
+        echo json_encode($row);
+}
+
 //resets the queue every morning
 function resetTickets() {
     global $db;
 
     $sql = "DELETE FROM TICKETS";
-    $db->query($sql);
+    $db->exec($sql);
 }
 
 //insert the user in a queue according to the specified request type
@@ -35,7 +44,7 @@ function getTicket($requestType){
 
     global $db;
     $sql = "INSERT INTO TICKETS (idTicket, idRequest, estimatedTime) VALUES ($idTicket, $idRequest, $estimatedTime)";
-    $db->query($sql);
+    $db->exec($sql);
 }
 
 //TODO : to support getTicket()
@@ -52,8 +61,9 @@ function getTicketId ($requestType) {
 function iAmReady($counterId) {
     global $db;
 
-    $sql = "UPDATE COUNTERS SET isReady=true WHERE idCounter='$counterId'";
-    $db->query($sql);
+    $query = $db->exec('UPDATE COUNTERS SET isReady=true WHERE idCounter="$counterId"');
+    if ($query)
+        echo 'Number of rows modified: ', $db->changes();
 }
 
 //returns the list of available counters to officier starting is 

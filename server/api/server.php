@@ -20,8 +20,7 @@ if(isset($_GET['url'])){
                 echo "counters to be implemented";
             break;
             case "requests":
-                echo "requests to be implemented";
-                //GET ALL REQUESTS INFO
+                getAllRequestsType();
             break;
             case "servedTickets":
                 echo "servedtickets to be implemented";
@@ -59,11 +58,8 @@ if(isset($_GET['url'])){
                 echo "servedtickets post to be implemented";
                
             break;
-            case "resetTickets":
-                resetTickets();
-            break;
             case "freeCounter":
-                $id = //get var from url
+                $id = $_GET['id'];
                 iAmReady($id);
             break;
             default:
@@ -79,8 +75,7 @@ if(isset($_GET['url'])){
                 echo "users delete to be implemented";
             break;
             case "tickets":
-                
-                echo "tickets delete to be implemented";
+                resetTickets();
             break;
             case "counters":
                 
