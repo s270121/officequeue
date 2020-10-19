@@ -1,6 +1,7 @@
 # Redirect non-existing pages to index.php
-Options +SymLinksIfOwnerMatch 
+Options +SymLinksIfOwnerMatch
 RewriteEngine On 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.+?)/?$ server.php?url=$1 [L,QSA]
+Header set Access-Control-Allow-Origin "http://localhost:5000/"
