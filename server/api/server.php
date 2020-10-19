@@ -40,7 +40,7 @@ if(isset($_GET['url'])){
             break;
             //returns the ticket number given a request type; returns 0 on error.
             case "tickets/$number":
-                echo insertTicket($number);
+                echo json_encode(insertTicket($number));
             break;
             case "counters":
                 echo "counters post to be implemented";

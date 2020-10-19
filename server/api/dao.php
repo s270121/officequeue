@@ -46,7 +46,7 @@ function getEstimatedWaitingTime ($idRequest, $serviceTime) {
 //insert the user in a queue according to the specified request type
 function insertTicket($idRequest){
     global $db;
-
+    
     $sql = "SELECT * FROM REQUESTS WHERE idRequest='$idRequest'";
     $row = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
     if (!empty($row)) {
@@ -64,10 +64,12 @@ function insertTicket($idRequest){
     $idTicket = date('Ymd') . $requestCode . $ticketNumber;
 
     $sql = "INSERT INTO TICKETS ('idTicket', 'requestCode', 'ticketNumber', 'estimatedTime', 'date') VALUES ('$idTicket', '$requestCode', '$ticketNumber', '$estimatedTime', CURRENT_DATE)";
-    // echo $sql;
     $result = $db->exec($sql);
     if ($result)
-        return $ticketNumber;
+        return array(
+            "ticketNumber" => $ticketNumber,
+            "estimatedTime" => $estimatedTime
+        );
     else
         return 0;
 }
