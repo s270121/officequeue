@@ -38,25 +38,38 @@ function deleteAllTickets() {
 ######################################################
 ##################      POST        ##################
 ######################################################
+//TODO : to support getTicket()
+function getEstimatedWaitingTime ($idRequest, $serviceTime) {
+    return 99;
+}
 
 //insert the user in a queue according to the specified request type
-function getTicket($requestType){
-    $idTicket = getTicketId($requestType);
-    $estimatedTime = getEstimatedWaitingTime($requestType);
-
+function insertTicket($idRequest){
     global $db;
-    $sql = "INSERT INTO TICKETS (idTicket, idRequest, estimatedTime) VALUES ($idTicket, $idRequest, $estimatedTime)";
-    $db->exec($sql);
-}
-//TODO : to support getTicket()
-function getEstimatedWaitingTime ($requestType) {
-    $time = 99;
-    return $time;
-}
-//TODO : to support getTicket()
-function getTicketId ($requestType) {
-    $id = 99;
-    return $id;
+
+    $sql = "SELECT * FROM REQUESTS WHERE idRequest='$idRequest'";
+    $row = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
+    if (!empty($row)) {
+        $requestCode = $row['requestCode'];
+        $serviceTime = $row['serviceTime'];
+    }
+    else {
+        return 0;
+    }
+
+    $sql = "SELECT MAX(ticketNumber) AS last FROM TICKETS WHERE date=CURRENT_DATE";
+    $ticketNumber = str_pad( $db->query($sql)->fetchArray(SQLITE3_ASSOC)['last']+1, 4, "0", STR_PAD_LEFT );
+
+    $estimatedTime = getEstimatedWaitingTime($idRequest, $serviceTime);
+    $idTicket = date('Ymd') . $requestCode . $ticketNumber;
+
+    $sql = "INSERT INTO TICKETS ('idTicket', 'requestCode', 'ticketNumber', 'estimatedTime', 'date') VALUES ('$idTicket', '$requestCode', '$ticketNumber', '$estimatedTime', CURRENT_DATE)";
+    // echo $sql;
+    $result = $db->exec($sql);
+    if ($result)
+        return $db->changes();
+    else
+        return 0;
 }
 
 ######################################################

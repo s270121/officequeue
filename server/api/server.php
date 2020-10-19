@@ -38,8 +38,8 @@ if(isset($_GET['url'])){
             case "users":
                 echo "users post to be implemented";
             break;
-            case "tickets":
-                echo "tickets post to be implemented";
+            case "tickets/$number":
+                insertTicket($number);
             break;
             case "counters":
                 echo "counters post to be implemented";
@@ -49,10 +49,6 @@ if(isset($_GET['url'])){
             break;
             case "servedTickets":
                 echo "servedtickets post to be implemented";
-            break;
-            case "getTicket":
-                $type = "SHPP";
-                getTicket($type);
             break;
             default:
                 echo "Invalid API!";
