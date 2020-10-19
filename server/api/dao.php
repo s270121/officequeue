@@ -2,31 +2,42 @@
 //do the connection with database 
 
 $db = new SQLite3("../office-queue.db");
-if($db){
+if($db) {
 
 }
-else{
+else {
     die("database connection error");
 }
 header('Content-Type: application/json');
 function checkLogin($username, $password){
     global $db;
-    $sql1 = "SELECT * FROM USERS WHERE USERNAME= '".$username."' AND PASSWORD='".$password."'";
-    $result = $db->query($sql1)->fetchArray(SQLITE3_ASSOC);
-    if($result){
+    $sql = "SELECT * FROM USERS WHERE USERNAME= '".$username."' AND PASSWORD='".$password."'";
+    $result = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
+    if($result)
         return $result;
-    }
     else
         return 0;
 }
 
+######################################################
+##################      DELETE      ##################
+######################################################
+
 //resets the queue every morning
-function resetTickets() {
+function deleteAllTickets() {
     global $db;
 
     $sql = "DELETE FROM TICKETS";
-    $db->exec($sql);
+    $result = $db->exec($sql);
+    if ($result)
+        return $db->changes();
+    else
+        return 0;
 }
+
+######################################################
+##################      POST        ##################
+######################################################
 
 //insert the user in a queue according to the specified request type
 function getTicket($requestType){
@@ -37,26 +48,36 @@ function getTicket($requestType){
     $sql = "INSERT INTO TICKETS (idTicket, idRequest, estimatedTime) VALUES ($idTicket, $idRequest, $estimatedTime)";
     $db->exec($sql);
 }
-
 //TODO : to support getTicket()
 function getEstimatedWaitingTime ($requestType) {
     $time = 99;
     return $time;
 }
+//TODO : to support getTicket()
 function getTicketId ($requestType) {
     $id = 99;
     return $id;
 }
 
+######################################################
+##################      PUT         ##################
+######################################################
+
 //set isReady to true, given a counter ID
-function iAmReady($counterId) {
+function setCounterAsReady($counterId) {
     global $db;
 
     $sql = "UPDATE COUNTERS SET isReady=true WHERE idCounter='$counterId'";
-    $query = $db->exec($sql);
-    if ($query)
-        echo 'Number of rows modified: ', $db->changes();
+    $result = $db->exec($sql);
+    if ($result)
+        return $db->changes();
+    else
+        return 0;
 }
+
+######################################################
+##################      GET         ##################
+######################################################
 
 //returns the list of available counters to officier starting his turn 
 function getAllAvailableCounters () {

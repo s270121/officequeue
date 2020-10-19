@@ -36,30 +36,24 @@ if(isset($_GET['url'])){
         $number = intval(preg_replace('/[^0-9]+/', '', $var)); //id number user for query; it is found in  the url ex: localhost:80/users/id if there is one
         switch($var){
             case "users":
-                
                 echo "users post to be implemented";
             break;
             case "tickets":
-                
                 echo "tickets post to be implemented";
             break;
             case "counters":
-               
                 echo "counters post to be implemented";
             break;
             case "requests":
                 echo "requests post to be implemented";
-               
             break;
             case "servedTickets":
                 echo "servedtickets post to be implemented";
-               
             break;
             case "getTicket":
                 $type = "SHPP";
                 getTicket($type);
             break;
-            
             default:
                 echo "Invalid API!";
         }
@@ -68,23 +62,19 @@ if(isset($_GET['url'])){
         $number = intval(preg_replace('/[^0-9]+/', '', $var)); //id number user for query; it is found in  the url ex: localhost:80/users/id if there is one
         switch($var){
             case "users":
-                
                 echo "users delete to be implemented";
             break;
             case "tickets":
-                resetTickets();
+                echo deleteAllTickets();
             break;
             case "counters":
-                
                 echo "counters delete to be implemented";
             break;
             case "requests":
                 echo "requests delete to be implemented";
-                
             break;
             case "servedTickets":
                 echo "servedtickets delete to be implemented";
-                
             break;
             default:
                 echo "Invalid API!";
@@ -94,27 +84,23 @@ if(isset($_GET['url'])){
         $number = intval(preg_replace('/[^0-9]+/', '', $var)); //id number user for query; it is found in  the url ex: localhost:80/users/id if there is one
         switch($var){
             case "users":
-                
                 echo "users put to be implemented";
             break;
             case "tickets":
-                
                 echo "tickets put to be implemented";
             break;
             case "counters":
-                
                 echo "counters put to be implemented";
             break;
             case "requests":
                 echo "requests put to be implemented";
-                
             break;
             case "servedTickets":
                 echo "servedtickets put to be implemented";
-                
             break;
-            case "freeCounter/$number":
-                iAmReady($number);
+            //SET THE COUNTER WITH THE GIVEN ID AS FREE; RETURNS THE NUMBER OF AFFECTED ROWS.
+            case "counterReady/$number":
+                echo setCounterAsReady($number);
             break;
             default:
                 echo "Invalid API!";
