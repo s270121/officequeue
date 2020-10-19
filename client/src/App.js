@@ -18,12 +18,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.getRequestType();
+    this.getRequestTypes();
   }
 
-  getRequestType = () => {
-    //API.getRequestType().then((types) => {this.setState({requestTypes: types}) });
-    console.log("Request types loading");
+  getRequestTypes = () => {
+    API.getRequestTypes().then((types) => {this.setState({requestTypes: types}) });
+    //console.log("Request types loading");
   }
 
   createNewTicket = (type) => {
