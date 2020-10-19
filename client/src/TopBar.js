@@ -7,7 +7,7 @@ class TopBar extends React.Component {
     render() {
         return <Navbar variant="light">
         <Navbar.Brand>Office queue</Navbar.Brand>
-        {this.props.loggedin === "false" ? 
+        {this.props.loggedin === false ? 
           <Link to="/login">
             {"Login "} 
             <svg className="bi bi-person-circle" width="32" height="32" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
