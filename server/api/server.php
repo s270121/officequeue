@@ -28,7 +28,7 @@ if(isset($_GET['url'])){
                 getAllRequestsType();
             break;
             case "servedTickets":
-                $servedTickets = json_encode(getAllServedTickets())
+                $servedTickets = json_encode(getAllServedTickets());
                 echo $servedTickets;
                 //GET ALL SERVED TICKETS INFO
             break;
