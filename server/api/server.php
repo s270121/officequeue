@@ -42,7 +42,7 @@ if(isset($_GET['url'])){
             case "insertTicketsWithType":
                 $ticketType = file_get_contents("php://input");
                 $inputTicket = (json_decode($postBody));
-                echo insertTicket($inputTicket);
+                echo json_encode(insertTicket($inputTicket));
             break;
 
             case "counters":
