@@ -113,7 +113,7 @@ function getAllTickets(){
             "idRequest" => $row['idRequest'],
             "ticketNumber" => $row['ticketNumber'],
             "estimatedTime" => $row['estimatedTime'],
-            "served" => $row['served'],
+            "hasBeenServed" => $row['hasBeenServed'],
             "date" => $row['date']
         );
         $data[] = $subArray;
@@ -145,8 +145,8 @@ function getAllServedTickets(){
     $data = array();
     while ($row = $result->fetchArray(SQLITE3_ASSOC)){
         $subArray = array(
-            "idTicket" => $row['idCounter'],
-            "idCounter" => $row['idRequest'],
+            "idTicket" => $row['idTicket'],
+            "idCounter" => $row['idCounter'],
             "idRequest" => $row['idRequest'],
             "date" => $row['date']
         );
