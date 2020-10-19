@@ -9,32 +9,23 @@ if(isset($_GET['url'])){
         switch($var){
             case "users":
                 //GET ALL USERS TABLE INFO
-                //echo "users to be implemented";
-                $users = json_encode(getAllUsers());
-                echo $users;
+                echo json_encode(getAllUsers());
             break;
             case "tickets":
                 //GET ALL TICKETS INFO
-                $tickets = json_encode(getAllTickets());
-                echo $tickets;
+                echo json_encode(getAllTickets());
             break;
             case "counters":
                 //GET ALL COUNTERS INFO
-                //echo "counters to be implemented";
-                $counters = json_encode(getAllCounters());
-                echo $counters;
+                echo json_encode(getAllCounters());
             break;
             case "requests":
-                getAllRequestsType();
+                //GET ALL REQUESTS INFO
+                echo json_encode(getAllRequests());
             break;
             case "servedTickets":
-                $servedTickets = json_encode(getAllServedTickets());
-                echo $servedTickets;
                 //GET ALL SERVED TICKETS INFO
-            break;
-            case "getTicket":
-                $type = "SHPP";
-                getTicket($type);
+                echo json_encode(getAllServedTickets());
             break;
             default:
                 echo "Invalid API!";
@@ -64,10 +55,13 @@ if(isset($_GET['url'])){
                 echo "servedtickets post to be implemented";
                
             break;
+            case "getTicket":
+                $type = "SHPP";
+                getTicket($type);
+            break;
             
             default:
                 echo "Invalid API!";
-
         }
     }
     else if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
@@ -92,7 +86,8 @@ if(isset($_GET['url'])){
                 echo "servedtickets delete to be implemented";
                 
             break;
-            
+            default:
+                echo "Invalid API!";
         }
     }
     else if($_SERVER['REQUEST_METHOD'] == 'PUT'){
@@ -121,8 +116,8 @@ if(isset($_GET['url'])){
             case "freeCounter/$number":
                 iAmReady($number);
             break;
-
-
+            default:
+                echo "Invalid API!";
         }
     }
     else{

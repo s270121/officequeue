@@ -20,15 +20,6 @@ function checkLogin($username, $password){
         return 0;
 }
 
-function getAllRequestsType(){
-    global $db;
-
-    $sql = "SELECT * FROM REQUESTS";
-    $result = $db->query($sql);
-    while ($row = $result->fetchArray(SQLITE3_ASSOC))
-        echo json_encode($row);
-}
-
 //resets the queue every morning
 function resetTickets() {
     global $db;
@@ -61,15 +52,37 @@ function getTicketId ($requestType) {
 function iAmReady($counterId) {
     global $db;
 
-    $query = $db->exec('UPDATE COUNTERS SET isReady=true WHERE idCounter="$counterId"');
+    $sql = "UPDATE COUNTERS SET isReady=true WHERE idCounter='$counterId'";
+    $query = $db->exec($sql);
     if ($query)
         echo 'Number of rows modified: ', $db->changes();
 }
 
-//returns the list of available counters to officier starting is 
-function getAveilableCounters () {
+//returns the list of available counters to officier starting his turn 
+function getAllAvailableCounters () {
+    global $db;
 
+    $sql = "SELECT * FROM COUNTERS WHERE idUser IS NULL";
+    $result = $db->query($sql);
+    while ($row = $result->fetchArray(SQLITE3_ASSOC))
+        echo json_encode($row);
 }
+
+function getAllRequests(){
+    global $db;
+
+    $sql = "SELECT * FROM REQUESTS";
+    $result = $db->query($sql);
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $subArray = array(
+            "idRequest" => $row['idRequest'],
+            "serviceTime" => $row['serviceTime']
+        );
+        $data[] = $subArray;
+    }
+    return $data;
+}
+
 function getAllUsers(){
     global $db;
 
@@ -85,9 +98,9 @@ function getAllUsers(){
         );
         $data[] = $subArray;
     }
-    return $data;
-        
+    return $data;       
 }
+
 function getAllTickets(){
     global $db;
 
@@ -107,6 +120,7 @@ function getAllTickets(){
     }
     return $data;
 }
+
 function getAllCounters(){
     global $db;
 
@@ -122,6 +136,7 @@ function getAllCounters(){
     }
     return $data;
 }
+
 function getAllServedTickets(){
     global $db;
 
