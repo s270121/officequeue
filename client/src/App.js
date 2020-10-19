@@ -27,7 +27,6 @@ class App extends React.Component {
 
   getRequestTypes = () => {
     API.getRequestTypes().then((types) => {this.setState({requestTypes: types}) });
-    //console.log("Request types loading");
   }
 
   createNewTicket = (type) => {
@@ -41,7 +40,8 @@ class App extends React.Component {
   }
 
   getNumberOfCustomers = (type) => {
-    API.getNumberOfCustomers(type).then((n) => {this.setState({numberOfCustomers: n})});
+    //API.getNumberOfCustomers(type).then((n) => {this.setState({numberOfCustomers: n})});
+    this.setState({numberOfCustomers: 4});
   }
 
   setLoggedIn = (name) => {
