@@ -51,6 +51,7 @@ function insertTicket($idRequest){
     $row = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
     if (!empty($row)) {
         $requestCode = $row['requestCode'];
+        $requestName = $row['requestName'];
         $serviceTime = $row['serviceTime'];
     }
     else {
@@ -68,7 +69,8 @@ function insertTicket($idRequest){
     if ($result)
         return array(
             "ticketNumber" => $ticketNumber,
-            "estimatedTime" => $estimatedTime
+            "estimatedTime" => $estimatedTime,
+            "requestName" => $requestName
         );
     else
         return 0;
