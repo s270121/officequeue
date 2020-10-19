@@ -22,6 +22,7 @@ async function userLogin(username, password) {
 
 async function createNewTicket(type) {
     return new Promise((resolve, reject) => {
+        //questa api ti restituisce la tabella ticket per intero non è quella per il post
         fetch('http://localhost:80/project1/server/api/tickets', {
             method: 'POST',
             headers: {
@@ -40,6 +41,7 @@ async function createNewTicket(type) {
 }
 
 async function getRequestTypes() {
+    //idem come sopra ti restituisce sempre tutta la tabella 
     const response = await fetch("http://localhost:80/project1/server/api/requests");
     const requestTypes = await response.json();
     if(response.ok) {
