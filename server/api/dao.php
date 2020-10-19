@@ -2,6 +2,7 @@
 //do the connection with database 
 
 $db = new SQLite3("../office-queue.db");
+header("Access-Control-Allow-Origin: *");
 if($db) {
 
 }

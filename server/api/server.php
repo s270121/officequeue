@@ -2,6 +2,7 @@
 //adding database interaction library
 require_once('dao.php');
 header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
 if(isset($_GET['url'])){
     $var = $_GET['url'];
     if($_SERVER['REQUEST_METHOD'] == 'GET'){
