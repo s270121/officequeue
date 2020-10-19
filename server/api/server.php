@@ -38,7 +38,7 @@ if(isset($_GET['url'])){
             case "users":
                 echo "users post to be implemented";
             break;
-            //returns the ticket number given a request type; returns 0 on error.
+            //returns ticket number and estimated waiting time given a request type; returns 0 on error.
             case "tickets/$number":
                 echo json_encode(insertTicket($number));
             break;
