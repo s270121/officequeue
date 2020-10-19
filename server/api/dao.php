@@ -8,7 +8,7 @@ if($db){
 else{
     die("database connection error");
 }
-
+header('Content-Type: application/json');
 function checkLogin($username, $password){
     global $db;
     $sql1 = "SELECT * FROM USERS WHERE USERNAME= '".$username."' AND PASSWORD='".$password."'";
@@ -70,6 +70,74 @@ function iAmReady($counterId) {
 function getAveilableCounters () {
 
 }
+function getAllUsers(){
+    global $db;
 
+    $sql = "SELECT * FROM USERS";
+    $result = $db->query($sql);
+    $data = array();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)){
+        $subArray = array(
+            "username" => $row['username'],
+            "password" => $row['password'],
+            "role" => $row['role'],
+            "user_id" => $row['user_id']
+        );
+        $data[] = $subArray;
+    }
+    return $data;
+        
+}
+function getAllTickets(){
+    global $db;
+
+    $sql = "SELECT * FROM TICKETS";
+    $result = $db->query($sql);
+    $data = array();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)){
+        $subArray = array(
+            "idTicket" => $row['idTicket'],
+            "idRequest" => $row['idRequest'],
+            "ticketNumber" => $row['ticketNumber'],
+            "estimatedTime" => $row['estimatedTime'],
+            "served" => $row['served'],
+            "date" => $row['date']
+        );
+        $data[] = $subArray;
+    }
+    return $data;
+}
+function getAllCounters(){
+    global $db;
+
+    $sql = "SELECT * FROM COUNTERS";
+    $result = $db->query($sql);
+    $data = array();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)){
+        $subArray = array(
+            "idCounter" => $row['idCounter'],
+            "idRequest" => $row['idRequest']
+        );
+        $data[] = $subArray;
+    }
+    return $data;
+}
+function getAllServedTickets(){
+    global $db;
+
+    $sql = "SELECT * FROM SERVEDTICKETS";
+    $result = $db->query($sql);
+    $data = array();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)){
+        $subArray = array(
+            "idTicket" => $row['idCounter'],
+            "idCounter" => $row['idRequest'],
+            "idRequest" => $row['idRequest'],
+            "date" => $row['date']
+        );
+        $data[] = $subArray;
+    }
+    return $data;
+}
 
 ?>

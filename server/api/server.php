@@ -1,7 +1,7 @@
 <?php
 //adding database interaction library
 require_once('dao.php');
-
+header('Content-Type: application/json');
 if(isset($_GET['url'])){
     $var = $_GET['url'];
     if($_SERVER['REQUEST_METHOD'] == 'GET'){
@@ -9,21 +9,27 @@ if(isset($_GET['url'])){
         switch($var){
             case "users":
                 //GET ALL USERS TABLE INFO
-                echo "users to be implemented";
+                //echo "users to be implemented";
+                $users = json_encode(getAllUsers());
+                echo $users;
             break;
             case "tickets":
                 //GET ALL TICKETS INFO
-                echo "tickets to be implemented";
+                $tickets = json_encode(getAllTickets());
+                echo $tickets;
             break;
             case "counters":
                 //GET ALL COUNTERS INFO
-                echo "counters to be implemented";
+                //echo "counters to be implemented";
+                $counters = json_encode(getAllCounters());
+                echo $counters;
             break;
             case "requests":
                 getAllRequestsType();
             break;
             case "servedTickets":
-                echo "servedtickets to be implemented";
+                $servedTickets = json_encode(getAllServedTickets())
+                echo $servedTickets;
                 //GET ALL SERVED TICKETS INFO
             break;
             case "getTicket":
@@ -58,10 +64,7 @@ if(isset($_GET['url'])){
                 echo "servedtickets post to be implemented";
                
             break;
-            case "freeCounter":
-                $id = $_GET['id'];
-                iAmReady($id);
-            break;
+            
             default:
                 echo "Invalid API!";
 
@@ -114,6 +117,9 @@ if(isset($_GET['url'])){
             case "servedTickets":
                 echo "servedtickets put to be implemented";
                 
+            break;
+            case "freeCounter/$number":
+                iAmReady($number);
             break;
 
 
