@@ -32,7 +32,7 @@ class TicketForm extends React.Component {
                             <Form.Group className="my-3" controlId="formTicket">
                             <Form.Label>Type of request</Form.Label>
                             <Form.Control as="select" name="type" onChange={(ev) => this.updateField(ev.target.name, ev.target.value)}>
-                                {this.props.requestTypes.map((type) => <option key={type}>{type}</option>)}
+                                {this.props.requestTypes.map((type) => <option key={type.idRequest}>{type.requestName}</option>)}
                             </Form.Control>
                             </Form.Group>
 

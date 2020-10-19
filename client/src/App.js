@@ -30,12 +30,10 @@ class App extends React.Component {
   }
 
   createNewTicket = (type) => {
-    /*
-    API.createNewTicket(type).then((ticket) => {this.setState({ticketNumber: ticket, type: type})})
+    API.createNewTicket(type).then((ticket) => {this.setState({ticketNumber: ticket, type: type, estimatedTime: ticket.estimatedTime})})
       .catch((e) => {
         console.log("Error in get a new ticket: " + e);
       });
-    */
       console.log("New ticket for type: " + type);
   }
 

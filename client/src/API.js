@@ -22,8 +22,7 @@ async function userLogin(username, password) {
 
 async function createNewTicket(type) {
     return new Promise((resolve, reject) => {
-        //questa api ti restituisce la tabella ticket per intero non è quella per il post
-        fetch('http://localhost:80/project1/server/api/tickets', {
+        fetch('http://localhost:80/project1/server/api/insertTicketWithType', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -32,7 +31,9 @@ async function createNewTicket(type) {
         }).then((response) => {
             //If the ticket is created resolve, else reject
             if (response.ok) {
-                resolve();
+                response.json().then((obj) => { 
+                    resolve(obj);
+                }); 
             } else {
                 reject({error: "Error in creating a ticket"});
             }
@@ -41,11 +42,10 @@ async function createNewTicket(type) {
 }
 
 async function getRequestTypes() {
-    //idem come sopra ti restituisce sempre tutta la tabella 
     const response = await fetch("http://localhost:80/project1/server/api/requests");
     const requestTypes = await response.json();
     if(response.ok) {
-        return requestTypes.map((type) => type.idRequest);
+        return requestTypes;
     } else {
         let err = {status: response.status, errorObj: requestTypes};
         throw err; 

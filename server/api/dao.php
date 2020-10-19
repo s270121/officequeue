@@ -114,7 +114,8 @@ function getAllRequests(){
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $subArray = array(
             "idRequest" => $row['idRequest'],
-            "serviceTime" => $row['serviceTime']
+            "serviceTime" => $row['serviceTime'],
+			"requestName" => $row['requestName']
         );
         $data[] = $subArray;
     }
