@@ -1,5 +1,6 @@
 import React from 'react';
 import { Alert, Container, Row, Col, Dropdown, Button } from 'react-bootstrap'
+import API from './API';
 
 class OfficerPage extends React.Component {
     constructor(props){
@@ -46,21 +47,28 @@ class OfficerPage extends React.Component {
     }
 
     componentDidMount = () => {
-        var counters = this.getCounterList();
-
-        this.setState({ counterList : counters });
+        this.updateCounterList();
     }
 
-    getCounterList = () => {
+    updateCounterList = () => {
         //this should get the counter list from the server
 
-        var counterList = [];
-
-        counterList.push(1);
-        counterList.push(2);
-        counterList.push(3);
-
-        return counterList;
+        API.getAllCounters()
+        .then((res) => {
+            /*
+            res is an array of objects like this:
+            { idCounter: 1, idRequest: "SHPP" }
+            so here you can also have information about which requests you can serve
+            */
+           
+            var allCountersIds = res.map(c => c.idCounter);
+            var counters_unique = [...new Set(allCountersIds)];
+            this.setState({ counterList : counters_unique });
+        })
+        .catch((err) => {
+            console.log('error in getting list of counters from server:');
+            console.log(err);
+        })
     }
 
     createDropdownItem = (counterId) => {
