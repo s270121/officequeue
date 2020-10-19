@@ -27,6 +27,10 @@ if(isset($_GET['url'])){
                 echo "servedtickets to be implemented";
                 //GET ALL SERVED TICKETS INFO
             break;
+            case "getTicket":
+                $type = "SHPP";
+                getTicket($type);
+            break;
             default:
                 echo "Invalid API!";
 
@@ -64,7 +68,7 @@ if(isset($_GET['url'])){
             break;
             default:
                 echo "Invalid API!";
-                
+
         }
     }
     else if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
@@ -90,8 +94,7 @@ if(isset($_GET['url'])){
                 echo "servedtickets delete to be implemented";
                 
             break;
-
-
+            
         }
     }
     else if($_SERVER['REQUEST_METHOD'] == 'PUT'){

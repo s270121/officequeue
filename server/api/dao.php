@@ -40,10 +40,11 @@ function getTicket($requestType){
 
 //TODO : to support getTicket()
 function getEstimatedWaitingTime ($requestType) {
+    $time = 99;
     return $time;
 }
-
 function getTicketId ($requestType) {
+    $id = 99;
     return $id;
 }
 
@@ -53,6 +54,11 @@ function iAmReady($counterId) {
 
     $sql = "UPDATE COUNTERS SET isReady=true WHERE idCounter='$counterId'";
     $db->query($sql);
+}
+
+//returns the list of available counters to officier starting is 
+function getAveilableCounters () {
+
 }
 
 
