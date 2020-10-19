@@ -50,5 +50,16 @@ async function getRequestTypes() {
     }
 }
 
-const API = { userLogin, createNewTicket, getRequestTypes};
+async function getNumberOfCustomers() {
+    const response = await fetch("http://localhost:80/project1/server/api/requests");       //To be defined
+    const n = await response.json();
+    if(response.ok) {
+        return n;
+    } else {
+        let err = {status: response.status, errorObj: n};
+        throw err; 
+    }
+}
+
+const API = { userLogin, createNewTicket, getRequestTypes, getNumberOfCustomers};
 export default API;

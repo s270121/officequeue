@@ -14,6 +14,7 @@ class App extends React.Component {
       loggedin: "false",            
       requestTypes: [],
       ticketNumber: undefined,
+      numberOfCustomers: undefined,
     };
   }
 
@@ -36,6 +37,10 @@ class App extends React.Component {
       console.log("New ticket for type: " + type);
   }
 
+  getNumberOfCustomers = (type) => {
+    API.getNumberOfCustomers(type).then((n) => {this.setState({numberOfCustomers: n})});
+  }
+
   render(props) {
     return (
       <Router>
@@ -50,7 +55,7 @@ class App extends React.Component {
           </Route>
 
           <Route path="/">
-            <TicketForm createNewTicket = {this.createNewTicket} requestTypes = {this.state.requestTypes} ticketNumber = {this.state.ticketNumber}></TicketForm>
+            <TicketForm createNewTicket = {this.createNewTicket} requestTypes = {this.state.requestTypes} ticketNumber = {this.state.ticketNumber} getNumberOfCustomers = {this.getNumberOfCustomers} numberOfCustomers = {this.state.numberOfCustomers}></TicketForm>
           </Route>
         </Switch>
       </Router>
