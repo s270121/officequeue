@@ -3,9 +3,6 @@
 
 $db = new SQLite3("../office-queue.db");
 if($db){
-    
-
-
 
 }
 else{
@@ -52,6 +49,8 @@ function getTicketId ($requestType) {
 
 //set isReady to true, given a counter ID
 function iAmReady($counterId) {
+    global $db;
+
     $sql = "UPDATE COUNTERS SET isReady=true WHERE idCounter='$counterId'";
     $db->query($sql);
 }
