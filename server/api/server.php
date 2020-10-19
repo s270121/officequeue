@@ -27,6 +27,8 @@ if(isset($_GET['url'])){
                 echo "servedtickets to be implemented";
                 //GET ALL SERVED TICKETS INFO
             break;
+            default:
+                echo "Invalid API!";
 
         }
     }
@@ -53,8 +55,16 @@ if(isset($_GET['url'])){
                 echo "servedtickets post to be implemented";
                
             break;
-
-
+            case "resetTickets":
+                resetTickets();
+            break;
+            case "freeCounter":
+                $id = //get var from url
+                iAmReady($id);
+            break;
+            default:
+                echo "Invalid API!";
+                
         }
     }
     else if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
