@@ -42,8 +42,8 @@ if(isset($_GET['url'])){
             //returns the ticket number given a request type; returns 0 on error.
             case "insertTicketsWithType":
                 $ticketType = file_get_contents("php://input");
-                $inputTicket = (json_decode($ticketType->type));
-                echo json_encode(insertTicket($inputTicket));
+                $inputTicket = (json_decode($ticketType));
+                echo json_encode(insertTicket($inputTicket->type));
             break;
 
             case "counters":
