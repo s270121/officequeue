@@ -7,13 +7,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $input = (json_decode($postBody));
     $return = checkLogin($input->username, $input->password);
     if($return == 0){
-        return json_encode($return);
+        echo (json_encode($return));
     }
     else {
         session_start();
         $_SESSION['user_id'] = $return['user_id'];
         $conv = json_encode($return);
-        return $conv;
+        echo ($conv);
     }
 }
 
