@@ -47,7 +47,8 @@ if(isset($_GET['url'])){
             //to be implemented
             break;
             case "getServingTickets":
-            //to be implemented
+                $return = json_encode(getServingTickets());
+                echo $return;
             break;
             default:
                 echo $msg;

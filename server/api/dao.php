@@ -135,7 +135,18 @@ function getAllRequests(){
 }
 
 function getServingTickets(){
-//to be implemented
+    $sql = "SELECT idCounter, ticketNumber, S.idRequest, S.date FROM SERVEDTICKETS S, TICKETS T WHERE S.idTicket=T.ticketNumber and t.hasBeenServed=0 and T.date=CURRENT_DATE and S.date=CURRENT_DATE";
+    $result = $db->query($sql);
+    $data = array();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $subArray = array(
+            "idCounter" => $row['idCounter'],
+            "ticketNumber" => $row['ticketNumber'],
+            "idRequest" => $row['idRequest']
+        );
+        $data[] = $subArray;
+    }
+    return $data;
 }
 function getTicketToBeServed() {
 //to be implemented 
