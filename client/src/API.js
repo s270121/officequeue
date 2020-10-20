@@ -28,7 +28,7 @@ async function createNewTicket(type) {
                 //'Content-Type': 'application/json',
                 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
             },
-            body: JSON.stringify({type: 2}),
+            body: JSON.stringify({type: type}),
         }).then((response) => {
             //If the ticket is created resolve, else reject
             if (response.ok) {

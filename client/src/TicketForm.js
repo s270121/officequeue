@@ -12,6 +12,10 @@ class TicketForm extends React.Component {
         this.state = {type: undefined};
     }
 
+    componentDidMount() {
+        this.props.getNumberOfCustomers(this.props.defaultType);
+    }
+
     updateField = (name, value) => {
         this.setState({[name]: value});
         this.props.getNumberOfCustomers(value);
@@ -19,9 +23,16 @@ class TicketForm extends React.Component {
 
     handleSubmit = (ev) => {
         ev.preventDefault();
+        //Se si clicca su take a ticket senza aver selezionato una scelta, viene preso in automatico la prima opzione (quella visualizzata)
+        let selectedType = undefined;
+        if(this.state.type === undefined) {
+            selectedType = this.props.defaultType.requestName;
+        } else {
+            selectedType = this.state.type;
+        }
         let id = undefined;
         for(let type of this.props.requestTypes) {
-            if(type.requestName === this.state.type) {
+            if(type.requestName === selectedType) {
                 id = type.idRequest;
             }
         }
@@ -53,10 +64,8 @@ class TicketForm extends React.Component {
                     </Col>
                 </Row>
                 
+                {this.props.ticket === undefined ? null : <Alert variant='primary'> Your ticket number: <b>{this.props.ticket.ticketNumber}</b></Alert>}
             </Container>
-            
-
-            {this.props.ticketNumber === undefined ? null : <Alert variant='primary'> Your ticket number: <b>{this.props.ticketNumber}</b></Alert>}
             </>
         )
     }
