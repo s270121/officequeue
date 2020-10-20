@@ -124,6 +124,7 @@ function getAllRequests(){
 function getServingTickets(){
 //to be implemented
 }
+funtion getTicketToBeServed(){}
 function getAllUsers(){
     global $db;
 
