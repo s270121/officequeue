@@ -3,7 +3,8 @@ async function userLogin(username, password) {
         fetch('http://localhost:80/project1/server/api/login.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                //'Content-Type': 'application/json',
+                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
             },
             body: JSON.stringify({username: username, password: password}),
         }).then((response) => {
