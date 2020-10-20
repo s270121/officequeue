@@ -1,5 +1,6 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Link, Switch, Redirect} from 'react-router-dom';
+import {BrowserRouter as Redirect} from 'react-router-dom';
+import API from './API';
 
 class LoginForm extends React.Component {
 
@@ -12,16 +13,26 @@ class LoginForm extends React.Component {
         this.setState({ [name]: value });
     }
 
+    doLoginCall = (username, password) => {
+        API.userLogin(username, password).then( (userObj) => {
+            this.setState({loginSuccess: true});       // need to redirect in render
+            this.props.setLoggedIn();  // keep success info in state at App level
+            console.log("success");
+        }).catch(
+            () => {this.setState({loginSuccess: false});
+            console.log("fail");}
+        );
+    }
+
     doLogin = (event) => {
         event.preventDefault();
         if (this.form.checkValidity()) {
-            this.setState({loginSuccess: true});
-            this.props.setLoggedIn();
+            this.doLoginCall(this.state.username, this.state.password);
         } else {
             this.form.reportValidity();
         }
     }
-
+    
     validateForm = (event) => {
         event.preventDefault();
     }

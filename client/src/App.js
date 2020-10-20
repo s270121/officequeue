@@ -5,7 +5,7 @@ import TicketForm from './TicketForm';
 import OfficerPage from './OfficerPage';
 import LoginForm from './LoginForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter as Router, Route, Link, Switch, Redirect} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -69,7 +69,11 @@ class App extends React.Component {
           </Route>
 
           <Route path="/">
-            <TicketForm createNewTicket = {this.createNewTicket} requestTypes = {this.state.requestTypes} ticketNumber = {this.state.ticketNumber} getNumberOfCustomers = {this.getNumberOfCustomers} numberOfCustomers = {this.state.numberOfCustomers}></TicketForm>
+            <TicketForm createNewTicket = {this.createNewTicket} 
+            requestTypes = {this.state.requestTypes} 
+            ticketNumber = {this.state.ticketNumber} 
+            getNumberOfCustomers = {this.getNumberOfCustomers} 
+            numberOfCustomers = {this.state.numberOfCustomers}></TicketForm>
           </Route>
         </Switch>
       </Router>
