@@ -51,7 +51,6 @@ function insertTicket($idRequest){
     $sql = "SELECT * FROM REQUESTS WHERE idRequest='$idRequest'";
     $row = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
     if (!empty($row)) {
-        $requestCode = $row['requestCode'];
         $requestName = $row['requestName'];
         $serviceTime = $row['serviceTime'];
     }
@@ -63,9 +62,9 @@ function insertTicket($idRequest){
     $ticketNumber = str_pad( $db->query($sql)->fetchArray(SQLITE3_ASSOC)['last']+1, 4, "0", STR_PAD_LEFT );
 
     $estimatedTime = getEstimatedWaitingTime($idRequest, $serviceTime);
-    $idTicket = date('Ymd') . $requestCode . $ticketNumber;
+    $idTicket = date('Ymd') . $ticketNumber . str_pad($idRequest, 2, "0", STR_PAD_LEFT );
 
-    $sql = "INSERT INTO TICKETS ('idTicket', 'requestCode', 'ticketNumber', 'estimatedTime', 'date') VALUES ('$idTicket', '$requestCode', '$ticketNumber', '$estimatedTime', CURRENT_DATE)";
+    $sql = "INSERT INTO TICKETS ('idTicket', 'idRequest', 'ticketNumber', 'estimatedTime', 'date') VALUES ('$idTicket', '$idRequest', '$ticketNumber', '$estimatedTime', CURRENT_DATE)";
     $result = $db->exec($sql);
     if ($result)
         return array(
@@ -116,8 +115,7 @@ function getAllRequests(){
         $subArray = array(
             "idRequest" => $row['idRequest'],
             "serviceTime" => $row['serviceTime'],
-            "requestName" => $row['requestName'],
-            "requestCode" => $row['requestCode']
+            "requestName" => $row['requestName']
         );
         $data[] = $subArray;
     }
@@ -153,7 +151,7 @@ function getAllTickets(){
     while ($row = $result->fetchArray(SQLITE3_ASSOC)){
         $subArray = array(
             "idTicket" => $row['idTicket'],
-            "requestCode" => $row['requestCode'],
+            "idRequest" => $row['idRequest'],
             "ticketNumber" => $row['ticketNumber'],
             "estimatedTime" => $row['estimatedTime'],
             "hasBeenServed" => $row['hasBeenServed'],
@@ -165,14 +163,12 @@ function getAllTickets(){
 }
 function getTicketsWithRequestType($requestType){
     global $db;
-    $sql = "SELECT COUNT(*) as total FROM TICKETS WHERE REQUESTCODE='".$requestType."' AND HASBEENSERVED=0";
+    $sql = "SELECT COUNT(*) AS total FROM TICKETS WHERE idRequest='$requestType' AND hasBeenServed=0 AND date=CURRENT_DATE";
     $result = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
     if($result)
         return $result;
     else
         return 0;
-
-
 }
 
 function getAllCounters(){
