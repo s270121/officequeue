@@ -11,8 +11,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         echo (json_encode($return));
     }
     else {
-        session_start();
-        $_SESSION['user_id'] = $return['user_id'];
+        // session_start();
+        // $_SESSION['user_id'] = $return['user_id'];
         $conv = json_encode($return);
         echo ($conv);
     }
