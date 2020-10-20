@@ -13,3 +13,4 @@
 | SERVEDTICKETS POST    | http://localhost:80/project1/server/api/servedTickets            | POST   |
 | TICKETS DELETE ALL    | http://localhost:80/project1/server/api/tickets                  | DELETE |
 | COUNTER IS READY PUT  | http://localhost:80/project1/server/api/counterReady/{couterId}  | PUT    |
+| TICKETS FROM REQUEST TYPE  | http://localhost/project1/server/api/getTicketsWithRequestType?req=(insert here the type) | GET    |
