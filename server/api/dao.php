@@ -135,6 +135,7 @@ function getAllRequests(){
 }
 
 function getServingTickets(){
+    global $db;
     $sql = "SELECT idCounter, ticketNumber, S.idRequest, S.date FROM SERVEDTICKETS S, TICKETS T WHERE S.idTicket=T.ticketNumber and t.hasBeenServed=0 and T.date=CURRENT_DATE and S.date=CURRENT_DATE";
     $result = $db->query($sql);
     $data = array();
@@ -149,7 +150,30 @@ function getServingTickets(){
     return $data;
 }
 function getTicketToBeServed() {
-//to be implemented 
+
+    global $db;
+    $sql = "select * from COUNTERS where idCounter=".$counterId."";
+    $sql1 = "select min(ticketNumber) as ticketToTake, count(*) as total, idRequest from TICKETS where date=date('now') and hasBeenServed=0 GROUP by idRequest order by total desc LIMIT 1;";
+    $data = array();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $subArray = array(
+            "idCounter" => $row['idCounter'],
+            "ticketNumber" => $row['ticketNumber'],
+            "idRequest" => $row['idRequest']
+        );
+        $data[] = $subArray;
+    }
+    $data1 = array();
+    while ($row1 = $result1->fetchArray(SQLITE3_ASSOC)) {
+        $subArray1 = array(
+            "idCounter" => $row1['idCounter'],
+            "ticketNumber" => $row1['ticketNumber'],
+            "idRequest" => $row1['idRequest']
+        );
+        $data1[] = $subArray1;
+    }
+    
+    
 }
 
 function getAllUsers(){
