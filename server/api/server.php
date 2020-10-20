@@ -45,6 +45,18 @@ if(isset($_GET['url'])){
             break;
             case "getTicketToBeServed":
             //to be implemented
+            $postBody = file_get_contents("php://input");
+                $input = (json_decode($postBody));
+                $return = getTicketToBeServed($input->idCounter);
+                if($return == 0){
+                    echo (json_encode($return));
+                }
+                else {
+                    // session_start();
+                    // $_SESSION['user_id'] = $return['user_id'];
+                    $conv = json_encode($return);
+                    echo ($conv);
+                }
             break;
             case "getServingTickets":
                 $return = json_encode(getServingTickets());

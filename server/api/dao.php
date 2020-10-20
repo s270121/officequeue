@@ -39,46 +39,38 @@ function deleteAllTickets() {
 ######################################################
 ##################      POST        ##################
 ######################################################
+//TODO : to support getTicket()
+function getEstimatedWaitingTime ($idRequest, $serviceTime) {
+    return 99;
+}
+
 //insert the user in a queue according to the specified request type
 function insertTicket($idRequest){
     global $db;
     
-    //check that this request type actually exits; if not, return 0
-    $sql = "SELECT * FROM REQUESTS WHERE idRequest=$idRequest";
+    $sql = "SELECT * FROM REQUESTS WHERE idRequest='$idRequest'";
     $row = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
-    if (!empty($row)) $requestName = $row['requestName'];
-    else return 0;
+    if (!empty($row)) {
+        $requestName = $row['requestName'];
+        $serviceTime = $row['serviceTime'];
+    }
+    else {
+        return 0;
+    }
 
-    //if there are no open counters able to manage this request type, return 0
-    $sql = "SELECT COUNT(*) AS openCounters FROM COUNTERS WHERE idRequest=$idRequest AND idUser IS NOT NULL";
-    $row = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
-    if ($row['openCounters']==0) return 0;
-
-    //get the next (sequential) ticket number
     $sql = "SELECT MAX(ticketNumber) AS last FROM TICKETS WHERE date=CURRENT_DATE";
     $ticketNumber = str_pad( $db->query($sql)->fetchArray(SQLITE3_ASSOC)['last']+1, 4, "0", STR_PAD_LEFT );
 
-    //get all the parameters needed to calculate the estimated waiting time
-    $sql = "SELECT T1.serviceTime AS tr, T2.num AS num, SUM(T3.den) AS den
-            FROM    (SELECT serviceTime FROM REQUESTS WHERE idRequest=$idRequest) AS T1,
-                    (SELECT COUNT(*) AS num FROM TICKETS WHERE idRequest=$idRequest AND hasBeenServed=0 AND date=CURRENT_DATE) AS T2,
-                    (SELECT idCounter, 1.0/COUNT(*) AS den FROM COUNTERS WHERE idCounter IN (SELECT DISTINCT(idCounter) FROM COUNTERS WHERE idRequest=$idRequest AND idUser IS NOT NULL) GROUP BY idCounter) AS T3";
-    $row = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
-    $estimatedTime = explode('.', round($row['tr']*(($row['num']/$row['den'])+0.5), 2));
-    //store the result in $minutes and $seconds
-    $minutes = $estimatedTime[0];
-    empty($estimatedTime[1]) ? $seconds = "00" : $seconds = str_pad(round($estimatedTime[1]*0.6), 2, "0", STR_PAD_RIGHT );
-
-    //build the ticket id based on the parameters above as [DATE][TICKETNUMBER][REQUESTID]
+    $estimatedTime = getEstimatedWaitingTime($idRequest, $serviceTime);
     $idTicket = date('Ymd') . $ticketNumber . str_pad($idRequest, 2, "0", STR_PAD_LEFT );
 
-    $sql = "INSERT INTO TICKETS ('idTicket', 'idRequest', 'ticketNumber', 'estimatedTime', 'date') VALUES ('$idTicket', '$idRequest', '$ticketNumber', '$minutes:$seconds', CURRENT_DATE)";
+    $sql = "INSERT INTO TICKETS ('idTicket', 'idRequest', 'ticketNumber', 'estimatedTime', 'date') VALUES ('$idTicket', '$idRequest', '$ticketNumber', '$estimatedTime', CURRENT_DATE)";
     $result = $db->exec($sql);
     if ($result)
         return array(
-            "ticketNumber" => "$ticketNumber",
-            "estimatedTime" => "$minutes:$seconds",
-            "requestName" => "$requestName"
+            "ticketNumber" => $ticketNumber,
+            "estimatedTime" => $estimatedTime,
+            "requestName" => $requestName
         );
     else
         return 0;
@@ -104,7 +96,7 @@ function setCounterAsReady($counterId) {
 function ticketHasBeenServed($idTicket) {
     global $db;
 
-    $sql = "UPDATE TICKETS SET hasBeenServed=1 WHERE idTicket='$idTicket'";
+    $sql = "UPDATE TICKETS SET hasBeenServed=true WHERE idTicket='$idTicket'";
     $result = $db->exec($sql);
     if ($result)
         return $db->changes();
@@ -157,31 +149,22 @@ function getServingTickets(){
     }
     return $data;
 }
-function getTicketToBeServed() {
+function getTicketToBeServed($counterId) {
 
     global $db;
-    $sql = "select * from COUNTERS where idCounter=".$counterId."";
-    $sql1 = "select min(ticketNumber) as ticketToTake, count(*) as total, idRequest from TICKETS where date=date('now') and hasBeenServed=0 GROUP by idRequest order by total desc LIMIT 1;";
-    $data = array();
-    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-        $subArray = array(
-            "idCounter" => $row['idCounter'],
-            "ticketNumber" => $row['ticketNumber'],
-            "idRequest" => $row['idRequest']
-        );
-        $data[] = $subArray;
+    $sql = "select min(ticketNumber) as ticketToTake, count(*) as total, idRequest from TICKETS where date=date('now') and hasBeenServed=0 and idRequest in (SELECT C.idRequest FROM COUNTERS C WHERE idCounter = 4) GROUP by idRequest order by total desc LIMIT 1;";
+    $result = $db->query($sql);
+    $result = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
+    if($result){
+        $sql1 = "insert into SERVEDTICKETS(idTicket, idCounter, idRequest, date) VALUES(".$result['ticketToTake'].", ".$counterId.", ".$result['idRequest'].", CURRENT_DATE)";
+        $result1=$db->exec($sql1);
+        if($result1)
+            return $result;
+        else
+            return -1;
     }
-    $data1 = array();
-    while ($row1 = $result1->fetchArray(SQLITE3_ASSOC)) {
-        $subArray1 = array(
-            "idCounter" => $row1['idCounter'],
-            "ticketNumber" => $row1['ticketNumber'],
-            "idRequest" => $row1['idRequest']
-        );
-        $data1[] = $subArray1;
-    }
-    
-    
+    else
+        return 0;
 }
 
 function getAllUsers(){
