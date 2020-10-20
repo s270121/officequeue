@@ -116,13 +116,16 @@ function getAllRequests(){
         $subArray = array(
             "idRequest" => $row['idRequest'],
             "serviceTime" => $row['serviceTime'],
-			"requestName" => $row['requestName']
+            "requestName" => $row['requestName'],
+            "requestCode" => $row['requestCode']
         );
         $data[] = $subArray;
     }
     return $data;
 }
+function getServingTickets(){
 
+}
 function getAllUsers(){
     global $db;
 
@@ -159,6 +162,17 @@ function getAllTickets(){
         $data[] = $subArray;
     }
     return $data;
+}
+function getTicketsWithRequestType($requestType){
+    global $db;
+    $sql = "SELECT COUNT(*) as total FROM TICKETS WHERE REQUESTCODE='".$requestType."' AND HASBEENSERVED=0";
+    $result = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
+    if($result)
+        return $result;
+    else
+        return 0;
+
+
 }
 
 function getAllCounters(){

@@ -28,6 +28,18 @@ if(isset($_GET['url'])){
                 //GET ALL SERVED TICKETS INFO
                 echo json_encode(getAllServedTickets());
             break;
+            case "getTicketsWithRequestType":
+            $requestType = $_GET['req'];
+            $requestType = strtoupper($requestType);
+            $return = getTicketsWithRequestType($requestType);
+            if($return == 0){ 
+                echo (json_encode($return));
+            }
+            else {
+                $conv = json_encode($return);
+                echo ($conv);
+            }
+            break;
             default:
                 echo "Invalid API!";
 
