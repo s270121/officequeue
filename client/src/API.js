@@ -54,11 +54,11 @@ async function getRequestTypes() {
     }
 }
 
-async function getNumberOfCustomers() {
-    const response = await fetch("http://localhost:80/project1/server/api/requests");       //To be defined
+async function getNumberOfCustomers(type) {
+    const response = await fetch("http://localhost/project1/server/api/getTicketsWithRequestType?req="+type); 
     const n = await response.json();
     if(response.ok) {
-        return n;
+        return n.total;
     } else {
         let err = {status: response.status, errorObj: n};
         throw err; 

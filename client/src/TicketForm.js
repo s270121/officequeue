@@ -13,12 +13,20 @@ class TicketForm extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getNumberOfCustomers(this.props.defaultType);
+        this.props.getNumberOfCustomers(1);
     }
 
     updateField = (name, value) => {
         this.setState({[name]: value});
-        this.props.getNumberOfCustomers(value);
+
+        //Conversione da requestName a idRequest
+        let id = undefined;
+        for(let type of this.props.requestTypes) {
+            if(type.requestName === value) {
+                id = type.idRequest;
+            }
+        }
+        this.props.getNumberOfCustomers(id);
     }
 
     handleSubmit = (ev) => {

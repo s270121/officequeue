@@ -85,12 +85,10 @@ class App extends React.Component {
       .catch((e) => {
         console.log("Error in get a new ticket: " + e);
       });
-      //console.log("New ticket for type: " + type);
   }
 
   getNumberOfCustomers = (type) => {
-    //API.getNumberOfCustomers(type).then((n) => {this.setState({numberOfCustomers: n})});
-    this.setState({numberOfCustomers: 4});
+    API.getNumberOfCustomers(type).then((n) => {this.setState({numberOfCustomers: n})});
   }
 
   setLoggedIn = (name) => {
