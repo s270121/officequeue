@@ -77,7 +77,7 @@ async function getAllCounters() {
 }
 
 async function getServingTickets() {
-    const response = await fetch("http://localhost:80/project1/server/api/servingTickets");
+    const response = await fetch("http://localhost:80/project1/server/api/getServingTickets");
     const servingTickets = await response.json();
     if(response.ok) {
         return servingTickets;

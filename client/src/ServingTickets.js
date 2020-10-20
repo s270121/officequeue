@@ -11,8 +11,9 @@ import React from 'react';
 class ServingTickets extends React.Component {
 
     render() {
-        /*for(const r of this.props.requestTypes) {
-            console.dir(`this.props.servingTickets[${r.requestName}]: ` + this.props.servingTickets[r.requestName])
+        /*console.log("servingTickets: " + JSON.stringify(this.props.servingTickets))
+        for(const r of this.props.requestTypes) {
+            console.dir(`this.props.servingTickets[${r.idRequest}]: ` + this.props.servingTickets[r.idRequest])
         }*/
 
         return(
@@ -25,7 +26,7 @@ class ServingTickets extends React.Component {
                 </tr>
                 </thead>
                 <tbody>{
-                    this.props.requestTypes.map((r) => <TicketRow key={r.idRequest} request={{...r, ticketNumber: this.props.servingTickets[r.requestName]?.ticketNumber, counterId: this.props.servingTickets[r.requestName]?.counterId}}/>)
+                    this.props.requestTypes.map((r) => <TicketRow key={r.idRequest} request={{...r, ticketNumber: this.props.servingTickets[r.idRequest]?.ticketNumber, counterId: this.props.servingTickets[r.idRequest]?.counterId}}/>)
                 }
                 </tbody>
             </table>
