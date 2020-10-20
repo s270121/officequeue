@@ -40,27 +40,39 @@ class App extends React.Component {
       for(const req of this.state.requestTypes) {
         const found = tickets.find(t => t.idRequest === req.requestName); // TODO change requestName to idRequest ???
         if(found === undefined) {
-          servingTickets[req.requestName] = '-';
+          servingTickets[req.requestName] = {
+            ticketNumber: '-',
+            counterId: '-', 
+          };
         } else {
-          servingTickets[req.requestName] = found.ticketNumber;
+          servingTickets[req.requestName] = {
+            ticketNumber: found.ticketNumber,
+            counterId: found.counterId, 
+          };
         }
       }
       this.setState({servingTickets: servingTickets}) 
     });*/
     
     const tickets = [
-      {idRequest: 'DEPOSIT', ticketNumber: 10},
-      {idRequest: 'MANAGEMENT', ticketNumber: 2},
-      {idRequest: 'SHIPPING', ticketNumber: 5}
+      {idRequest: 'DEPOSIT', ticketNumber: 10, counterId: 1},
+      {idRequest: 'WITHDRAWAL', ticketNumber: 2, counterId: 4},
+      {idRequest: 'SHIPPING', ticketNumber: 5, counterId: 7}
     ]
 
     const servingTickets = {};
     for(const req of this.state.requestTypes) {
       const found = tickets.find(t => t.idRequest === req.requestName);
       if(found === undefined) {
-        servingTickets[req.requestName] = '-';
+        servingTickets[req.requestName] = {
+          ticketNumber: '-',
+          counterId: '-', 
+        };
       } else {
-        servingTickets[req.requestName] = found.ticketNumber;
+        servingTickets[req.requestName] = {
+          ticketNumber: found.ticketNumber,
+          counterId: found.counterId, 
+        };
       }
     }
 
