@@ -76,5 +76,16 @@ async function getAllCounters() {
     }
 }
 
-const API = { userLogin, createNewTicket, getRequestTypes, getNumberOfCustomers, getAllCounters };
+async function getServingTickets() {
+    const response = await fetch("http://localhost:80/project1/server/api/servingTickets");
+    const servingTickets = await response.json();
+    if(response.ok) {
+        return servingTickets;
+    } else {
+        let err = {status: response.status, errorObj: servingTickets};
+        throw err; 
+    }
+}
+
+const API = { userLogin, createNewTicket, getRequestTypes, getNumberOfCustomers, getAllCounters, getServingTickets };
 export default API;

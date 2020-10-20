@@ -4,6 +4,7 @@ import TopBar from './TopBar';
 import TicketForm from './TicketForm';
 import OfficerPage from './OfficerPage';
 import LoginForm from './LoginForm';
+import ServingTickets from './ServingTickets';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import './App.css';
@@ -16,6 +17,7 @@ class App extends React.Component {
     this.state = {
       loggedin: false,            
       requestTypes: [],
+      servingTickets: [],
       ticket: undefined,
       numberOfCustomers: undefined,
     };
@@ -26,8 +28,45 @@ class App extends React.Component {
   }
 
   getRequestTypes = () => {
-    API.getRequestTypes().then((types) => {this.setState({requestTypes: types}) });
+    API.getRequestTypes().then((types) => { 
+      this.setState({requestTypes: types}); 
+      this.getServingTickets();
+    });
   }
+  
+  getServingTickets = () => {
+    /* TODO API.getServingTickets().then((tickets) => {
+      const servingTickets = {};
+      for(const req of this.state.requestTypes) {
+        const found = tickets.find(t => t.idRequest === req.requestName); // TODO change requestName to idRequest ???
+        if(found === undefined) {
+          servingTickets[req.requestName] = '-';
+        } else {
+          servingTickets[req.requestName] = found.ticketNumber;
+        }
+      }
+      this.setState({servingTickets: servingTickets}) 
+    });*/
+    
+    const tickets = [
+      {idRequest: 'DEPOSIT', ticketNumber: 10},
+      {idRequest: 'MANAGEMENT', ticketNumber: 2},
+      {idRequest: 'SHIPPING', ticketNumber: 5}
+    ]
+
+    const servingTickets = {};
+    for(const req of this.state.requestTypes) {
+      const found = tickets.find(t => t.idRequest === req.requestName);
+      if(found === undefined) {
+        servingTickets[req.requestName] = '-';
+      } else {
+        servingTickets[req.requestName] = found.ticketNumber;
+      }
+    }
+
+    this.setState({servingTickets: servingTickets});
+  }
+
 
   createNewTicket = (type) => {
     API.createNewTicket(type).then((ticket) => {this.setState({ticket: ticket})})
@@ -69,6 +108,7 @@ class App extends React.Component {
           </Route>
 
           <Route path="/">
+            <ServingTickets requestTypes={this.state.requestTypes} servingTickets={this.state.servingTickets} />
             <TicketForm createNewTicket = {this.createNewTicket} requestTypes = {this.state.requestTypes} ticket = {this.state.ticket} getNumberOfCustomers = {this.getNumberOfCustomers} numberOfCustomers = {this.state.numberOfCustomers} defaultType = {this.state.requestTypes[0]}></TicketForm>
           </Route>
         </Switch>
