@@ -40,6 +40,9 @@ if(isset($_GET['url'])){
                 echo ($conv);
             }
             break;
+            case "getServingTickets":
+            //to be implemented 
+            break;
             default:
                 echo "Invalid API!";
 
