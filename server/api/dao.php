@@ -28,7 +28,7 @@ function checkLogin($username, $password){
 function deleteAllTickets() {
     global $db;
 
-    $sql = "DELETE FROM TICKETS";
+    $sql = "DELETE FROM TICKETS WHERE date<CURRENT_DATE";
     $result = $db->exec($sql);
     if ($result)
         return $db->changes();
@@ -92,6 +92,18 @@ function setCounterAsReady($counterId) {
         return 0;
 }
 
+//set hasBeenServed to true, given a ticket ID
+function ticketHasBeenServed($idTicket) {
+    global $db;
+
+    $sql = "UPDATE TICKETS SET hasBeenServed=true WHERE idTicket='$idTicket'";
+    $result = $db->exec($sql);
+    if ($result)
+        return $db->changes();
+    else
+        return 0;
+}
+
 ######################################################
 ##################      GET         ##################
 ######################################################
@@ -121,10 +133,14 @@ function getAllRequests(){
     }
     return $data;
 }
+
 function getServingTickets(){
 //to be implemented
 }
-funtion getTicketToBeServed(){}
+function getTicketToBeServed() {
+//to be implemented 
+}
+
 function getAllUsers(){
     global $db;
 
