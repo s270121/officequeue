@@ -39,38 +39,38 @@ function deleteAllTickets() {
 ######################################################
 ##################      POST        ##################
 ######################################################
-//TODO : to support getTicket()
-function getEstimatedWaitingTime ($idRequest, $serviceTime) {
-    return 99;
-}
-
 //insert the user in a queue according to the specified request type
 function insertTicket($idRequest){
     global $db;
     
     $sql = "SELECT * FROM REQUESTS WHERE idRequest='$idRequest'";
     $row = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
-    if (!empty($row)) {
+    if (!empty($row)) 
         $requestName = $row['requestName'];
-        $serviceTime = $row['serviceTime'];
-    }
-    else {
+    else 
         return 0;
-    }
 
     $sql = "SELECT MAX(ticketNumber) AS last FROM TICKETS WHERE date=CURRENT_DATE";
     $ticketNumber = str_pad( $db->query($sql)->fetchArray(SQLITE3_ASSOC)['last']+1, 4, "0", STR_PAD_LEFT );
 
-    $estimatedTime = getEstimatedWaitingTime($idRequest, $serviceTime);
+    $sql = "SELECT T1.serviceTime AS tr, T2.num AS num, SUM(T3.den) AS den
+            FROM    (SELECT serviceTime FROM REQUESTS WHERE idRequest=4) AS T1,
+                    (SELECT COUNT(*) AS num FROM TICKETS WHERE idRequest=4 AND hasBeenServed=0 AND date=CURRENT_DATE) AS T2,
+                    (SELECT idCounter, 1.0/COUNT(*) AS den FROM COUNTERS WHERE idCounter IN (SELECT DISTINCT(idCounter) FROM COUNTERS WHERE idRequest=4 AND idUser IS NOT NULL) GROUP BY idCounter) AS T3";
+    $row = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
+    $estimatedTime = explode('.', round($row['tr']*(($row['num']/$row['den'])+0.5), 2));
+    $minutes = $estimatedTime[0];
+    $seconds = str_pad(round($estimatedTime[1]*0.6), 2, "0", STR_PAD_RIGHT );
+
     $idTicket = date('Ymd') . $ticketNumber . str_pad($idRequest, 2, "0", STR_PAD_LEFT );
 
-    $sql = "INSERT INTO TICKETS ('idTicket', 'idRequest', 'ticketNumber', 'estimatedTime', 'date') VALUES ('$idTicket', '$idRequest', '$ticketNumber', '$estimatedTime', CURRENT_DATE)";
+    $sql = "INSERT INTO TICKETS ('idTicket', 'idRequest', 'ticketNumber', 'estimatedTime', 'date') VALUES ('$idTicket', '$idRequest', '$ticketNumber', '$minutes:$seconds', CURRENT_DATE)";
     $result = $db->exec($sql);
     if ($result)
         return array(
-            "ticketNumber" => $ticketNumber,
-            "estimatedTime" => $estimatedTime,
-            "requestName" => $requestName
+            "ticketNumber" => "$ticketNumber",
+            "estimatedTime" => "$minutes:$seconds",
+            "requestName" => "$requestName"
         );
     else
         return 0;
@@ -96,7 +96,7 @@ function setCounterAsReady($counterId) {
 function ticketHasBeenServed($idTicket) {
     global $db;
 
-    $sql = "UPDATE TICKETS SET hasBeenServed=true WHERE idTicket='$idTicket'";
+    $sql = "UPDATE TICKETS SET hasBeenServed=1 WHERE idTicket='$idTicket'";
     $result = $db->exec($sql);
     if ($result)
         return $db->changes();

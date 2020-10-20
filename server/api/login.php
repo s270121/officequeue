@@ -10,9 +10,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if($return == 0){
         echo (json_encode($return));
     }
-    else {
+    else {        
         // session_start();
         // $_SESSION['user_id'] = $return['user_id'];
+        // $_SESSION['counter_id'] = $input->counter;
+
+        //UPDATE COUNTERS SET idUser=$_SESSION['user_id'] WHERE idCounter=$_SESSION['counter_id']
+
         $conv = json_encode($return);
         echo ($conv);
     }
