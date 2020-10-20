@@ -150,7 +150,7 @@ function getAllTickets(){
     while ($row = $result->fetchArray(SQLITE3_ASSOC)){
         $subArray = array(
             "idTicket" => $row['idTicket'],
-            "idRequest" => $row['idRequest'],
+            "requestCode" => $row['requestCode'],
             "ticketNumber" => $row['ticketNumber'],
             "estimatedTime" => $row['estimatedTime'],
             "hasBeenServed" => $row['hasBeenServed'],
