@@ -16,7 +16,7 @@ class App extends React.Component {
     this.state = {
       loggedin: false,            
       requestTypes: [],
-      ticketNumber: undefined,
+      ticket: undefined,
       numberOfCustomers: undefined,
     };
   }
@@ -30,11 +30,11 @@ class App extends React.Component {
   }
 
   createNewTicket = (type) => {
-    API.createNewTicket(type).then((ticket) => {this.setState({ticketNumber: ticket, type: type, estimatedTime: ticket.estimatedTime})})
+    API.createNewTicket(type).then((ticket) => {this.setState({ticket: ticket})})
       .catch((e) => {
         console.log("Error in get a new ticket: " + e);
       });
-      console.log("New ticket for type: " + type);
+      //console.log("New ticket for type: " + type);
   }
 
   getNumberOfCustomers = (type) => {
@@ -69,11 +69,7 @@ class App extends React.Component {
           </Route>
 
           <Route path="/">
-            <TicketForm createNewTicket = {this.createNewTicket} 
-            requestTypes = {this.state.requestTypes} 
-            ticketNumber = {this.state.ticketNumber} 
-            getNumberOfCustomers = {this.getNumberOfCustomers} 
-            numberOfCustomers = {this.state.numberOfCustomers}></TicketForm>
+            <TicketForm createNewTicket = {this.createNewTicket} requestTypes = {this.state.requestTypes} ticket = {this.state.ticket} getNumberOfCustomers = {this.getNumberOfCustomers} numberOfCustomers = {this.state.numberOfCustomers} defaultType = {this.state.requestTypes[0]}></TicketForm>
           </Route>
         </Switch>
       </Router>
