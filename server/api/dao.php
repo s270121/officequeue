@@ -96,7 +96,7 @@ function setCounterAsReady($counterId) {
 function ticketHasBeenServed($idTicket) {
     global $db;
 
-    $sql = "UPDATE TICKETS SET hasBeenServed=true WHERE idTicket='$idTicket'";
+    $sql = "UPDATE TICKETS SET hasBeenServed=true WHERE ticketNumber=".$idTicket." and date=CURRENT_DATE;";
     $result = $db->exec($sql);
     if ($result)
         return $db->changes();
