@@ -167,8 +167,18 @@ function getServingTickets(){
 function getTicketToBeServed($counterId) {
 
     global $db;
-    $sql = "select min(ticketNumber) as ticketToTake, count(*) as total, idRequest from TICKETS where date=date('now') and hasBeenServed=0 and idRequest in (SELECT C.idRequest FROM COUNTERS C WHERE idCounter = 4) GROUP by idRequest order by total desc LIMIT 1;";
-    $result = $db->query($sql);
+    if($actualTicketNumber != -1){
+        $sqlUpdate = "UPDATE TICKETS SET hasBeenServed=true WHERE ticketNumber=".$actualTicketNumber." and date=CURRENT_DATE;";
+        $resultUpdate = $db->exec($sqlUpdate);
+        if($resultUpdate){
+            
+        }
+        else{
+            return "error inside update ticket hasbeenserved";
+        }
+    }
+    $sql = "select min(ticketNumber) as ticketToTake, count(*) as total, idRequest from TICKETS where date=date('now') and hasBeenServed=0 and idRequest in (SELECT C.idRequest FROM COUNTERS C WHERE idCounter = ".$counterId.") GROUP by idRequest order by total desc LIMIT 1;";
+    //$result = $db->query($sql);
     $result = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
     if($result){
         $sql1 = "insert into SERVEDTICKETS(idTicket, idCounter, idRequest, date) VALUES(".$result['ticketToTake'].", ".$counterId.", ".$result['idRequest'].", CURRENT_DATE)";
