@@ -69,7 +69,7 @@ function insertTicket($idRequest){
     $sql = "SELECT T1.serviceTime AS tr, T2.num AS num, SUM(T3.den) AS den
             FROM    (SELECT serviceTime FROM REQUESTS WHERE idRequest=$idRequest) AS T1,
                     (SELECT COUNT(*) AS num FROM TICKETS WHERE idRequest=$idRequest AND hasBeenServed=0 AND date=CURRENT_DATE) AS T2,
-                    (SELECT idCounter, 1.0/COUNT(*) AS den FROM COUNTERS WHERE idCounter IN (SELECT DISTINCT(idCounter) FROM COUNTERS WHERE idRequest=$idRequest AND idUser IS NOT NULL) GROUP BY idCounter) AS T3";
+                    (SELECT idCounter, 1.0/COUNT(*) AS den FROM COUNTERS WHERE idCounter IN (SELECT DISTINCT(idCounter) FROM COUNTERS WHERE idRequest=$idRequest /*AND idUser IS NOT NULL*/) GROUP BY idCounter) AS T3";
     $row = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
     $estimatedTime = explode('.', round($row['tr']*(($row['num']/$row['den'])+0.5), 2));
     //store the result in $minutes and $seconds
