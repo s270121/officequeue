@@ -108,7 +108,10 @@ class OfficerPage extends React.Component {
 
         API.getTicketToBeServed(this.state.counterId, this.state.ticketNumber)
         .then((res) => {
-            if (res !== 0){
+        	if(res === -2){
+        		console.log('error in update (from server, in /getTicketToBeServed)');
+        	}
+            else if (res !== 0){
                 var newTicketNumber = res.ticketToTake;
                 this.setState({ ticketNumber: newTicketNumber });
             }
