@@ -43,21 +43,7 @@ if(isset($_GET['url'])){
                 echo ($conv);
             }
             break;
-            case "getTicketToBeServed":
-            //to be implemented
-            $postBody = file_get_contents("php://input");
-                $input = (json_decode($postBody));
-                $return = getTicketToBeServed($input->idCounter);
-                if($return == 0){
-                    echo (json_encode($return));
-                }
-                else {
-                    // session_start();
-                    // $_SESSION['user_id'] = $return['user_id'];
-                    $conv = json_encode($return);
-                    echo ($conv);
-                }
-            break;
+            
             case "getServingTickets":
                 $return = json_encode(getServingTickets());
                 echo $return;
@@ -76,6 +62,21 @@ if(isset($_GET['url'])){
                 $inputTicket = (json_decode($ticketType));
                 echo json_encode(insertTicket($inputTicket->type));
             break;
+            case "getTicketToBeServed":
+                //to be implemented
+                $postBody = file_get_contents("php://input");
+                    $input = (json_decode($postBody));
+                    $return = getTicketToBeServed($input->idCounter);
+                    if($return == 0){
+                        echo (json_encode($return));
+                    }
+                    else {
+                        // session_start();
+                        // $_SESSION['user_id'] = $return['user_id'];
+                        $conv = json_encode($return);
+                        echo ($conv);
+                    }
+                break;
             default:
                 echo $msg;
         }
