@@ -21,6 +21,23 @@ async function userLogin(username, password) {
     });
 }
 
+async function logout(){
+	return new Promise((resolve, reject) => {
+        fetch('http://localhost:80/project1/server/api/logout.php')
+        .then((response) => {
+			if(response.ok){
+				resolve();
+			}
+			else{
+				reject();
+			}
+       })
+       .catch((err) => { 
+      		 reject(err); 
+       });
+    });
+}
+
 async function createNewTicket(type) {
     return new Promise((resolve, reject) => {
         fetch('http://localhost:80/project1/server/api/insertTicketsWithType', {
@@ -161,6 +178,6 @@ async function getTicketToBeServed(counterId, ticketNumber) {
 
 const API = {
     userLogin, createNewTicket, getRequestTypes, getNumberOfCustomers, getAllCounters, getServingTickets, putCounterReady, putTicketServed, 
-    getTicketToBeServed 
+    getTicketToBeServed, logout
 };
 export default API;

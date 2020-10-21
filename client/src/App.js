@@ -73,6 +73,13 @@ class App extends React.Component {
 
   logout = () =>{
     this.setState({loggedin: false});
+    API.logout()
+    .then(() => {
+    	console.log('logout success');
+    })
+    .catch(() => {
+    	console.log('error during logout');
+    });
   }
 
   render(props) {
