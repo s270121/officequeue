@@ -8,15 +8,15 @@ async function userLogin(username, password) {
             },
             body: JSON.stringify({username: username, password: password}),
         }).then((response) => {
-            if (response.ok) {
-                response.json().then((obj) => { 
-                    resolve(obj);
-                }); 
-            } else {
-                response.json()
-                    .then((obj) => { reject(obj); })
-                    .catch((err) => { reject({ errors: [{ param: "Application", msg: "Cannot parse server response" }] }) });
-            }
+            response.json().then((obj) => { 
+                console.log(obj);
+                if(obj === 0 ) {
+                    reject(obj);
+                } else {
+                    resolve(obj);    
+                }
+            })
+            .catch((err) => { reject({ errors: [{ param: "Application", msg: "Cannot parse server response" }] }) });
         }).catch((err) => { reject({ errors: [{ param: "Server", msg: "Cannot communicate" }] }) });
     });
 }
