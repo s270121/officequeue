@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import API from './API';
 
 class LoginForm extends React.Component {
@@ -17,7 +17,6 @@ class LoginForm extends React.Component {
         API.userLogin(username, password).then( (userObj) => {
             this.setState({loginSuccess: true});       // need to redirect in render
             this.props.setLoggedIn();  // keep success info in state at App level
-            console.log("success");
         }).catch(
             () => {this.setState({loginSuccess: false});
             console.log("fail");}
@@ -38,8 +37,8 @@ class LoginForm extends React.Component {
     }
 
     render() {
-        if (this.state.loginSuccess){
-            return <Redirect to="/officer"/>
+        if (this.state.loginSuccess) {
+            return <Redirect to='/officer' />;
         } else
         return <div>
             <form className='form' method={'POST'}
