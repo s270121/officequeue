@@ -164,7 +164,7 @@ function getServingTickets(){
     }
     return $data;
 }
-function getTicketToBeServed($counterId) {
+function getTicketToBeServed($counterId, $actualTicketNumber) {
 
     global $db;
     if($actualTicketNumber != -1){

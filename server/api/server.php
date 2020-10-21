@@ -64,7 +64,7 @@ if(isset($_GET['url'])){
                 //to be implemented
                 $postBody = file_get_contents("php://input");
                     $input = (json_decode($postBody));
-                    $return = getTicketToBeServed($input->idCounter);
+                    $return = getTicketToBeServed($input->idCounter, $input->ticketNumber);
                     if($return == 0){
                         echo (json_encode($return));
                     }
