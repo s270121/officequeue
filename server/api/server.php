@@ -1,8 +1,6 @@
 <?php
-//adding database interaction library
 require_once('dao.php');
 header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: *");
 
 $msg = "Invalid API!";
 if(isset($_GET['url'])){

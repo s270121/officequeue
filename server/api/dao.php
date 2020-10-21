@@ -1,19 +1,25 @@
 <?php
-//do the connection with database 
+session_start();
+header('Content-Type: application/json');
 
 $db = new SQLite3("../office-queue.db");
-header("Access-Control-Allow-Origin: *");
-if($db) {
+if($db) { }
+else { die("Database connection error."); }
 
-}
-else {
-    die("database connection error");
-}
-header('Content-Type: application/json');
-function checkLogin($username, $password){
+function login($username, $password){
     global $db;
     $sql = "SELECT * FROM USERS WHERE USERNAME= '".$username."' AND PASSWORD='".$password."'";
     $result = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
+    if($result)
+        return $result;
+    else
+        return 0;
+}
+
+function logout() {
+    global $db;
+    $sql = "UPDATE COUNTERS SET idUser=NULL WHERE idUser='".$_SESSION['user_id']."'";
+    $result = $db->exec($sql);
     if($result)
         return $result;
     else
@@ -39,6 +45,7 @@ function deleteAllTickets() {
 ######################################################
 ##################      POST        ##################
 ######################################################
+
 //insert the user in a queue according to the specified request type
 function insertTicket($idRequest){
     global $db;
@@ -50,9 +57,9 @@ function insertTicket($idRequest){
     else return 0;
 
     //if there are no open counters able to manage this request type, return 0
-    $sql = "SELECT COUNT(*) AS openCounters FROM COUNTERS WHERE idRequest=$idRequest AND idUser IS NOT NULL";
-    $row = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
-    if ($row['openCounters']==0) return 0;
+    // $sql = "SELECT COUNT(*) AS openCounters FROM COUNTERS WHERE idRequest=$idRequest AND idUser IS NOT NULL";
+    // $row = $db->query($sql)->fetchArray(SQLITE3_ASSOC);
+    // if ($row['openCounters']==0) return 0;
 
     //get the next (sequential) ticket number
     $sql = "SELECT MAX(ticketNumber) AS last FROM TICKETS WHERE date=CURRENT_DATE";

@@ -1,5 +1,15 @@
-<?php 
-//UPDATE COUNTERS SET idUser=NULL WHERE idUser=$_SESSION['user_id']
+<?php
+require_once('dao.php');
+header('Content-Type: application/json');
 
-session_destroy();
+$result = logout();
+//LOGOUT SUCCESS
+if($result) {
+    session_unset();
+    session_destroy();
+} 
+//LOGOUT FAIL
+else {
+    exit('Logout failed');
+}
 ?>

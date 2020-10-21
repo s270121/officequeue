@@ -4,5 +4,5 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.+?)/?$ server.php?url=$1 [L,QSA]
-Header set Access-Control-Allow-Origin "http://localhost:3000"
+Header set Access-Control-Allow-Origin *
 Header set Access-Control-Allow-Methods *
