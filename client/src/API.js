@@ -133,14 +133,14 @@ async function putTicketServed(ticketNumber) {
     });
 }
 
-async function getTicketToBeServed(counterId) {
+async function getTicketToBeServed(counterId, ticketNumber) {
     const response = await fetch('http://localhost:80/project1/server/api/getTicketToBeServed/', {
         method: 'POST',
         headers: {
             //'Content-Type': 'application/json',
             'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
         },
-        body: JSON.stringify({idCounter: counterId}),
+        body: JSON.stringify({idCounter: counterId, ticketNumber: ticketNumber}),
     });
     
     try{

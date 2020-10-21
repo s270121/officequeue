@@ -18,7 +18,7 @@ class OfficerPage extends React.Component {
         return <>
             <Container fluid>
                 <Row>
-                    <Col className='col-2'>
+                    <Col className='col-3'>
                         <Alert variant='info'>You are serving at counter: {this.state.counterId}</Alert>
                     </Col>
 
@@ -100,11 +100,13 @@ class OfficerPage extends React.Component {
         - to indicate that there is no new customer to serve, set newTicketNumber = -1
         */
 
+        /*
         if(this.state.ticketNumber !== -1){
             API.putTicketServed(this.state.ticketNumber);
         }
+        */
 
-        API.getTicketToBeServed(this.state.counterId)
+        API.getTicketToBeServed(this.state.counterId, this.state.ticketNumber)
         .then((res) => {
             if (res !== 0){
                 var newTicketNumber = res.ticketToTake;
