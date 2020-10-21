@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Container, Row, Col, Dropdown, Button } from 'react-bootstrap'
+import { Alert, Container, Row, Col, Dropdown, Button, Modal } from 'react-bootstrap'
 import API from './API';
 
 class OfficerPage extends React.Component {
@@ -9,7 +9,8 @@ class OfficerPage extends React.Component {
         this.state = { 
             counterId: 1, 
             counterList: [],
-            ticketNumber: -1         //current ticket that the officer is serving
+            ticketNumber: -1,         //current ticket that the officer is serving
+            showModal: false
         };
     }
 
@@ -35,13 +36,24 @@ class OfficerPage extends React.Component {
                 <Row>
                     <Col className='col-3'>
                         { (this.state.ticketNumber !== -1) && (<Alert variant='info'>You are serving ticket number: {this.state.ticketNumber}</Alert>)}
-                        { (this.state.ticketNumber === -1) && (<Alert variant='warning'>You are currently not serving any customer</Alert>)}
+                        { (this.state.ticketNumber === -1) && (<Alert variant='warning'>You have no customer to serve</Alert>)}
                     </Col>
 
                     <Col className='col-2'>
-                        <Button className='mt-2' variant='success' onClick={this.updateTickerNumber}>Call next customer</Button>
+                        <Button className='mt-2' variant='success' onClick={this.updateTicketNumber}>Call next customer</Button>
                     </Col>
                 </Row>
+                
+                <Modal show={this.state.showModal} animation={false}>
+                	<Modal.Header>
+                		<Alert variant='success'>No new customers to serve!</Alert>
+                	</Modal.Header>
+                	
+                	<Modal.Footer>
+                		<Button onClick={() => {this.setState({ showModal: false });}}>Close</Button>
+                	</Modal.Footer>
+                </Modal>
+                
             </Container>
         </>
     }
@@ -56,8 +68,8 @@ class OfficerPage extends React.Component {
         API.getAllCounters()
         .then((res) => {
             /*
-            res is an array of objects like this:
-            { idCounter: 1, idRequest: "SHPP" }
+            res is an array of objects with also the request types for each counter
+
             so here you can also have information about which requests you can serve
             */
            
@@ -81,15 +93,32 @@ class OfficerPage extends React.Component {
         this.setState({ counterId: counterId });
     }
 
-    updateTickerNumber = () => {
+    updateTicketNumber = () => {
         /*
         - this shuld get the next ticket number to serve from the server
         - to access the current counter number, use this.state.counterId
         - to indicate that there is no new customer to serve, set newTicketNumber = -1
         */
-        var newTicketNumber = 1;
 
-        this.setState({ ticketNumber: newTicketNumber });
+        if(this.state.ticketNumber !== -1){
+            API.putTicketServed(this.state.ticketNumber);
+        }
+
+        API.getTicketToBeServed(this.state.counterId)
+        .then((res) => {
+            if (res !== 0){
+                var newTicketNumber = res.ticketToTake;
+                this.setState({ ticketNumber: newTicketNumber });
+            }
+            else{ //if res === 0 there is no new ticket to serve
+                this.setState({ ticketNumber: -1, showModal: true });
+                API.putCounterReady(this.state.counterId);
+            }
+        })
+        .catch((err) => {
+            console.log('error in API.getTicketToBeServed');
+            console.log(err);
+        });        
     }
 }
 

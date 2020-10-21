@@ -87,5 +87,80 @@ async function getServingTickets() {
     }
 }
 
-const API = { userLogin, createNewTicket, getRequestTypes, getNumberOfCustomers, getAllCounters, getServingTickets };
+async function putCounterReady(counterId) {
+    return new Promise((resolve, reject) => {
+        fetch('http://localhost:80/project1/server/api/counterReady/' + counterId, {
+            method: 'PUT',
+            headers: {
+                //'Content-Type': 'application/json',
+                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        }).then((response) => {
+            if (response.ok) {
+                resolve(response);
+            } else {
+                console.log('error from server when sending PUT http://localhost:80/project1/server/api/counterReady/' + counterId);
+            	reject();
+            }
+        }).catch((err) => { 
+            console.log('could not reach server'); 
+            console.log(err);
+            reject(err);
+        });
+    });
+}
+
+async function putTicketServed(ticketNumber) {
+    return new Promise((resolve, reject) => {
+        fetch('http://localhost:80/project1/server/api/ticketServed/' + ticketNumber, {
+            method: 'PUT',
+            headers: {
+                //'Content-Type': 'application/json',
+                'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+            }
+        }).then((response) => {
+            if (response.ok) {
+                resolve(response);
+            } else {
+            	console.log('error from server when sending PUT http://localhost:80/project1/server/api/ticketServed/' + ticketNumber);
+            	reject();
+            }
+        }).catch((err) => { 
+            console.log('could not reach server'); 
+            console.log(err);
+            reject(err);
+        });
+    });
+}
+
+async function getTicketToBeServed(counterId) {
+    const response = await fetch('http://localhost:80/project1/server/api/getTicketToBeServed/', {
+        method: 'POST',
+        headers: {
+            //'Content-Type': 'application/json',
+            'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
+        },
+        body: JSON.stringify({idCounter: counterId}),
+    });
+    
+    try{
+        const resJ = await response.json();
+        if(response.ok) {
+		    return resJ;
+		} else {
+		    let err = {status: response.status, errorObj: resJ};
+		    throw err; 
+		}
+    }
+    catch(e){
+        //console.log('error in reading json from POST /api/getTicketToBeServed/');
+        //console.log(e);
+        return 0;   //meaning: no new customer
+    }
+}
+
+const API = {
+    userLogin, createNewTicket, getRequestTypes, getNumberOfCustomers, getAllCounters, getServingTickets, putCounterReady, putTicketServed, 
+    getTicketToBeServed 
+};
 export default API;
