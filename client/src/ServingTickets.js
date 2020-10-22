@@ -10,6 +10,10 @@ import React from 'react';
 
 class ServingTickets extends React.Component {
 
+    componentDidMount() {
+        this.props.getServingTickets();
+    }
+
     render() {
         /*console.log("servingTickets: " + JSON.stringify(this.props.servingTickets))
         for(const r of this.props.requestTypes) {

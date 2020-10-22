@@ -101,7 +101,7 @@ class App extends React.Component {
           </Route>
 
           <Route path="/">
-            <ServingTickets requestTypes={this.state.requestTypes} servingTickets={this.state.servingTickets} />
+            <ServingTickets requestTypes={this.state.requestTypes} servingTickets={this.state.servingTickets} getServingTickets = {this.getServingTickets}/>
             <TicketForm createNewTicket = {this.createNewTicket} requestTypes = {this.state.requestTypes} ticket = {this.state.ticket} getNumberOfCustomers = {this.getNumberOfCustomers} numberOfCustomers = {this.state.numberOfCustomers} defaultType = {this.state.requestTypes[0]}></TicketForm>
           </Route>
         </Switch>
