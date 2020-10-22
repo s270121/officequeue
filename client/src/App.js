@@ -27,6 +27,8 @@ class App extends React.Component {
     this.getRequestTypes();
   }
 
+  refreshServingTickets = setInterval (() => {this.getServingTickets()}, 10000);
+
   getRequestTypes = () => {
     API.getRequestTypes().then((types) => { 
       this.setState({requestTypes: types}); 
